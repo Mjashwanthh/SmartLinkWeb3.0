@@ -1,4 +1,4 @@
-import React, {createContext, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { ethers } from "ethers";
 import { contractABI, contractAddress } from "../utils/constants";
 import BN from "bn.js";
@@ -27,7 +27,7 @@ export const TransactionProvider = ({ children }) => {
     const [currentAccount, setCurrentAccount] = useState('')
     const [formData, setFormData] = useState({ addressTo: '', amount: '', keyword: '', message: '' })
     const [isLoading, setIsLoading] = useState(false)
-    const [transactionCount, setTransactionCount] = useState(0)
+    const [transactionCount, setTransactionCount] = useState(localStorage.getItem("transactionCount"))
     const [allTransactions, setAllTransactions] = useState([])
 
     // ethereum.on('accountsChanged', (accounts) => {
@@ -53,21 +53,21 @@ export const TransactionProvider = ({ children }) => {
             [name]: e.target.value
         }))
     }
-  
-    const checkIfWalletIsConnected = async () => {
-        try {
-            if (!ethereum) return alert("Please install metamask")
-            const accounts = await ethereum.request({ method: 'eth_accounts' })
-            if (accounts.length) {
-                const account = accounts[0]
-                console.log("Found an authorized account:", account)
-            } else {
-                console.log("No authorized account found")
-            }
-        } catch (error) {
-            console.log(error)
-        }
-    }
+
+//     const checkIfWalletIsConnected = async () => {
+//         try {
+//             if (!ethereum) return alert("Please install metamask")
+//             const accounts = await ethereum.request({ method: 'eth_accounts' })
+//             if (accounts.length) {
+//                 const account = accounts[0]
+//                 console.log("Found an authorized account:", account)
+//             } else {
+//                 console.log("No authorized account found")
+//             }
+//         } catch (error) {
+//             console.log(error)
+//         }
+//     }
 
     const connectWallet = async () => {
         try {
@@ -121,7 +121,7 @@ export const TransactionProvider = ({ children }) => {
         }).then((txHash) => console.log("ethereum txhash", txHash))
             .catch((error) => console.error(error));
 
-        const transactionHash = await transactionContract.addToBlockchain(addressTo, parsedAmount, message, keyword);   
+        const transactionHash = await transactionContract.addToBlockchain(addressTo, parsedAmount, message, keyword)
 
         console.log("transactionHash", transactionHash.hash);
         const count = await transactionContract.getTransactionCount()
