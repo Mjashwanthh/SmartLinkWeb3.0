@@ -79,6 +79,14 @@ export const TransactionProvider = ({ children }) => {
         }
     }
 
+    const showWallets = async() => {
+        try {
+            const accounts = await ethereum.request({ method: 'eth_requestAccounts' });
+        } catch(error) {
+            console.log(error)
+        }   
+    }
+
     const fetchAllTransactions = async () => {
         try {
             const transactionContract = await getEthereumContract()
@@ -109,8 +117,7 @@ export const TransactionProvider = ({ children }) => {
         const parsedAmount = ethers.parseEther(amount)
         const parsedAmountBN = new BN(parsedAmount, 10)
         console.log(parsedAmount);
-        // It has been abandoned, use BN.js
-        console.log(parsedAmount._hex);
+     
         ethereum.request({
             method: 'eth_sendTransaction',
             params: [{

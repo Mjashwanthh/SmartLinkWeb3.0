@@ -1,11 +1,20 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
 import { HiMenuAlt4 } from "react-icons/hi";
 import { AiOutlineClose } from "react-icons/ai";
 
-import { SiEthereum } from "react-icons/si";
-
 const NavBarItem = ({ title, classProps }) => {
-  return <li className={`mx-4 cursor-pointer ${classProps}`}>{title}</li>;
+  let href = "";
+  if (title === "Market") href = "https://www.coinbase.com/price/ethereum";
+  else if (title === "Exchange") href = "https://www.coinbase.com/converter/eth/usd";
+  else if (title === "Tutorials") href = "https://www.coinbase.com/learn/tips-and-tutorials";
+  else href = "https://portfolio.metamask.io/";
+  return (
+    <li className={`mx-4 cursor-pointer ${classProps}`}>
+      <a href={href} target="_blank" rel="noopener noreferrer">
+        {title}
+      </a>
+    </li>
+  );
 };
 
 const Navbar = () => {
@@ -15,17 +24,17 @@ const Navbar = () => {
     <nav className="w-full flex md:justify-center justify-between items-center p-4">
       <div className="md:flex-[0.5] flex-initial justify-center items-center">
         <div className="flex flex-row">
-          <div className="w-10 h-10 rounded-full border-2 border-white flex justify-center items-center">
-            <SiEthereum fontSize={22} color="#fff" className="flex size-7" />
-          </div>
-          <p className="text-white text-4xl w-[50%] font:semiBold py:3 cursor-pointer"><a href="https://cryptoexpresshub.com">CRYPTOEXPRESSHUB</a></p>
+          <p className="text-start pr-24 text-white text-4xl w-full py:3 cursor-pointer">
+            <a href="https://cryptoexpresshub.com">CRYPTOEXPRESSHUB</a>
+          </p>
         </div>
       </div>
       <ul className="text-white md:flex hidden list-none flex-row justify-between items-center flex-initial">
-        {["Marker", "Exchange", "Tutorials", "Wallets"].map((item, index) => (
+        {["Market", "Exchange", "Tutorials", "Portfolio"].map((item, index) => (
           <NavBarItem key={item + index} title={item} />
         ))}
       </ul>
+
       <div className="flex relative">
         {!toggleMenu && (
           <HiMenuAlt4
@@ -49,13 +58,15 @@ const Navbar = () => {
             <li className="text-xl w-full my-2">
               <AiOutlineClose onClick={() => setToggleMenu(false)} />
             </li>
-            {["Market", "Exchange", "Tutorials", "Wallets"].map(
+            {["Market", "Exchange", "Tutorials", "Portfolio"].map(
               (item, index) => (
-                <NavBarItem
+                <div
                   key={item + index}
-                  title={item}
-                  classprops="my-2 text-lg"
-                />
+                  
+                  className="my-2 text-lg"
+                >
+                  <NavBarItem title={item} />
+                </div>
               )
             )}
           </ul>
