@@ -1,2 +1,5 @@
 # SmartLinkWeb3.0
-This projects is all about digital currency , developed using Block Chain Technology.
+Clone the Repository in your local.
+And download the node modules.
+Execute the commnand npm run dev
+Now you can see the crytoexpresshub project and now you can send the ethereum
